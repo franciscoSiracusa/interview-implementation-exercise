@@ -4,41 +4,21 @@ const controllers = require('../controllers/todo-controllers.js')
 
 //Get items and folders
 
-routes.get('/getItem', (req,res) =>{
-    
-})
-
-routes.get('/getFolder', (req,res) =>{
-    
-})
+routes.get('/getItem', controllers.getItem)
+routes.get('/getFolder', controllers.getFolder)
 
 //Create items and folders
 
-routes.post('/createItem', (req,res) =>{
-    
-});
-
-routes.post('/createFolder', (req,res) =>{
-
-});
+routes.post('/createItem', controllers.createItem);
+routes.post('/createFolder', controllers.createFolder);
 
 //Edit items and folders
-routes.patch('/editItem', (req,res) =>{
-    
-});
-
-routes.patch('/editFolder', (req,res) =>{
-
-});
+routes.patch('/editItem', controllers.editItem);
+routes.patch('/editFolder', controllers.editFolder);
 
 //Delete items and folders
-routes.delete('/editItem', (req,res) =>{
-    
-});
-
-routes.delete('/editFolder', (req,res) =>{
-
-});
+routes.delete('/deleteItem', controllers.deleteItem);
+routes.delete('/deleteFolder', controllers.deleteFolder);
 
 
 module.exports = routes;
