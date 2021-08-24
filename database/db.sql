@@ -1,6 +1,6 @@
-CREATE DATABASE database_todoList;
+CREATE DATABASE database_todolist;
 
-USE database_todoList;
+USE database_todolist;
 
 -- Items table
 CREATE TABLE items (
