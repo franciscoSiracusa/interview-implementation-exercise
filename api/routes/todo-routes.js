@@ -20,5 +20,7 @@ routes.patch('/editFolder', controllers.editFolder);
 routes.delete('/deleteItem', controllers.deleteItem);
 routes.delete('/deleteFolder', controllers.deleteFolder);
 
+//Checked item TODO
+
 
 module.exports = routes;

@@ -18,11 +18,11 @@ DESCRIBE items;
 
 -- Folder table
 
-CREATE TABLE folder (
+CREATE TABLE folders (
     name VARCHAR(30) NOT NULL,
     item_id INT NOT NULL,
     PRIMARY KEY(name,item_id),
     FOREIGN KEY(item_id) REFERENCES items(item_id) ON DELETE CASCADE
 );
 
-DESCRIBE folder;
+DESCRIBE folders;
