@@ -1,3 +1,4 @@
+const { copyFileSync } = require('fs');
 const path = require('path')
 const pool = require(path.join(__dirname, '..', '..','database.js'))
 
@@ -11,13 +12,16 @@ const getFolder = async (req,res) =>{
     res.json(folders);
 };
 
-const createItem = (req,res) =>{
-    console.log(req.query.description);
-    res.send("recibido")
+const createItem = async (req,res) =>{
+    let sql = "INSERT INTO items(description) VALUES('"+ req.query.description +"')";
+    await pool.query(sql);
+    res.sendStatus(200).end()
 };
 
-const createFolder = (req,res) =>{
-
+const createFolder = async(req,res) =>{
+    let sql = "INSERT INTO folders(name) VALUES('"+ req.query.description +"')";
+    await pool.query(sql);
+    res.sendStatus(200).end()
 };
 
 const editItem = (req,res) =>{
