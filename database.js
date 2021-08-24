@@ -4,7 +4,7 @@ const {promisify} = require('util'); // mysql uses callbacks
 let database = {
     host: 'localhost', //local storage
     user: 'root', //defaul user of mysql
-    password: '', //has no password
+    password: 'password', //password has been set in instalation
     database: 'database_todolist' //database of the to-do app
 }
 
@@ -21,10 +21,11 @@ pool.getConnection((err,connection) =>{
         if (err.code === 'ECONNREFUSED') {
             console.error('DATABASE CONNECTION WAS REFUSE');
         }
+        throw err;
     }
-    if (connection) 
-        connection.release();
-    console.log('DB is connected');
+    if (connection) connection.release();
+    console.log('DB is Connected');
+  
     return;
 });
 

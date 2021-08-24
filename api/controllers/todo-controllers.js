@@ -1,7 +1,9 @@
-const getItem = (req,res) =>{
-    
-};
+const path = require('path')
+const pool = require(path.join(__dirname, '..', '..','database.js'))
 
+const getItem = (req,res) =>{
+};
+ 
 const getFolder = (req,res) =>{
 
 };

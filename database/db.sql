@@ -15,3 +15,14 @@ ALTER TABLE items
     MODIFY item_id INT NOT NULL AUTO_INCREMENT;
 
 DESCRIBE items;
+
+-- Folder table
+
+CREATE TABLE folder (
+    name VARCHAR(30) NOT NULL,
+    item_id INT NOT NULL,
+    PRIMARY KEY(name,item_id),
+    FOREIGN KEY(item_id) REFERENCES items(item_id) ON DELETE CASCADE
+);
+
+DESCRIBE folder;
