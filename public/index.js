@@ -1,23 +1,51 @@
+const displayItem = (data) => {
+  const itemContainer = document.getElementById("item-container");
+  itemContainer.innerHTML = "";
+  const fragment = document.createDocumentFragment();
+  data.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.setAttribute("data-id", item.item_id);
+    const p = document.createElement("p");
+    const deletebtn = document.createElement("button");
+    const editbtn = document.createElement("button");
+    const input = document.createElement("input");
+    deletebtn.textContent = "Borrar";
+    editbtn.textContent = "Editar";
+    p.textContent = item.description;
+    input.type = "checkbox";
+    input.checked = item.checked ? true : false;
+    deletebtn.addEventListener("click", () => deleteItem(div.dataset.id));
+    editbtn.addEventListener("click", () => editItem(div.dataset.id));
+    input.addEventListener("change", () => checkItem(div.dataset.id, input));
+    div.appendChild(p);
+    div.appendChild(deletebtn);
+    div.appendChild(editbtn);
+    div.appendChild(input);
+    fragment.appendChild(div);
+  });
+  itemContainer.appendChild(fragment);
+};
+
 const deleteItem = (id) => {
-	fetch(`/deleteItem?id=${id}`,{
-		method: "DELETE"
-	})
-		.then(res => {
-			let div = document.querySelector(`[data-id="${id}"]`);
-			div.innerHTML = '';
-			div.remove();
-		});
-}
+  fetch(`/deleteItem?id=${id}`, {
+    method: "DELETE",
+  }).then((res) => {
+    let div = document.querySelector(`[data-id="${id}"]`);
+    div.innerHTML = "";
+    div.remove();
+  });
+};
 
 const editItem = (id) => {
-	const formContainer = document.getElementById("form-container");
-	formContainer.innerHTML = '';
-	const form = document.createElement("form");
+  const formContainer = document.getElementById("form-container");
+  formContainer.innerHTML = "";
+  const form = document.createElement("form");
   form.id = "form";
   formContainer.appendChild(form);
   const input = document.createElement("input");
   const btn = document.createElement("button");
-	const cancelBtn = document.createElement("button");
+  const cancelBtn = document.createElement("button");
   input.id = "description";
   input.name = "description";
   input.placeholder = "Editar Tarea";
@@ -25,76 +53,50 @@ const editItem = (id) => {
   input.required = true;
   input.maxLength = 50;
   btn.textContent = "Editar";
-	btn.id='btn';
-	cancelBtn.textContent = "Cancelar";
-	cancelBtn.id= 'btn';
+  btn.id = "btn";
+  cancelBtn.textContent = "Cancelar";
+  cancelBtn.id = "btn";
   form.appendChild(input);
   form.appendChild(btn);
-	form.appendChild(cancelBtn);
-	cancelBtn.addEventListener("click", ()=>{
-		formContainer.innerHTML = '';
-		getItems();
-		createItem();
-	})
+  form.appendChild(cancelBtn);
+  cancelBtn.addEventListener("click", () => {
+    formContainer.innerHTML = "";
+    getItems();
+    createItem();
+  });
   btn.addEventListener("click", (e) => {
     e.preventDefault();
     fetch(`/editItem?description=${input.value}&id=${id}`, {
       method: "PUT",
     }).then((res) => {
-			formContainer.innerHTML = '';
-			getItems();
-			createItem();
-		});
+      formContainer.innerHTML = "";
+      getItems();
+      createItem();
+    });
   });
 };
 
-const checkItem = (id,input) =>{
-	if (input.checked) {
-		let checked = 1;
-		fetch(`/checkItem?id=${id}&checked=${checked}`,{
-			method:'PUT'
-		}).then()
-	} else {
-		let checked = 0;
-		fetch(`/checkItem?id=${id}&checked=${checked}`,{
-			method:'PUT'
-		}).then()
-	}
-}
+const checkItem = (id, input) => {
+  if (input.checked) {
+    let checked = 1;
+    fetch(`/checkItem?id=${id}&checked=${checked}`, {
+      method: "PUT",
+    }).then();
+  } else {
+    let checked = 0;
+    fetch(`/checkItem?id=${id}&checked=${checked}`, {
+      method: "PUT",
+    }).then();
+  }
+};
 
 const getItems = () => {
   fetch("/getItem")
     .then((res) => res.json())
     .then((data) => {
-      const itemContainer = document.getElementById("item-container");
-			itemContainer.innerHTML = '';
-      const fragment = document.createDocumentFragment();
-      data.forEach((item) => {
-        const div = document.createElement("div");
-        div.className = "item";
-        div.setAttribute("data-id", item.item_id);
-        const p = document.createElement("p");
-        const deletebtn = document.createElement("button");
-        const editbtn = document.createElement("button");
-				const input = document.createElement("input");
-        deletebtn.textContent = "Borrar";
-        editbtn.textContent = "Editar";
-        p.textContent = item.description;
-				input.type = 'checkbox'
-        input.checked = item.checked ? true : false;
-        deletebtn.addEventListener("click", () => deleteItem(div.dataset.id));
-				editbtn.addEventListener("click", () => editItem(div.dataset.id));
-				input.addEventListener("change", ()=> checkItem(div.dataset.id,input));
-        div.appendChild(p);
-        div.appendChild(deletebtn);
-        div.appendChild(editbtn);
-				div.appendChild(input);
-        fragment.appendChild(div);
-      });
-      itemContainer.appendChild(fragment);
+      displayItem(data);
     });
 };
-
 
 const createItem = () => {
   const form = document.createElement("form");
@@ -110,7 +112,7 @@ const createItem = () => {
   input.required = true;
   input.maxLength = 50;
   btn.textContent = "Crear";
-	btn.id='btn'
+  btn.id = "btn";
   form.appendChild(input);
   form.appendChild(btn);
   btn.addEventListener("click", (e) => {
@@ -118,33 +120,74 @@ const createItem = () => {
     fetch(`/createItem?description=${input.value}`, {
       method: "POST",
     }).then((res) => {
-			getItems();
-			input.value = '';
-		});
+      getItems();
+      input.value = "";
+    });
   });
 };
 
+const getFolderItems = (id, name) => {
+  document.getElementById("folder-container").innerHTML = "";
+  fetch(`/getFolderItem?id=${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      displayItem(data);
+      const p = document.createElement("p");
+      p.textContent = name;
+      const itemContainer = document.getElementById("item-container");
+      itemContainer.appendChild(p);
+      console.log(name);
+    });
+};
 
-const deleteFolder = (id) => {
-	fetch(`/deleteFolder?id=${id}`,{
-		method: "DELETE"
-	})
-		.then(res => {
-			let div = document.querySelector(`[data-id="${id}"]`);
-			div.innerHTML = '';
-			div.remove();
-		});
+const createFolderItems = (id,name) =>{
+  const form = document.createElement("form");
+  form.id = "form";
+  const formContainer = document.getElementById("form-container");
+  formContainer.appendChild(form);
+  const input = document.createElement("input");
+  const btn = document.createElement("button");
+  input.id = "description";
+  input.name = "description";
+  input.placeholder = "Insertar Tarea";
+  input.pattern = "^[a-zA-Z ñÑ]*$";
+  input.required = true;
+  input.maxLength = 50;
+  btn.textContent = "Add";
+  btn.id = "btn";
+  form.appendChild(input);
+  form.appendChild(btn);
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    fetch(`/createFolderItem?description=${input.value}&id=${id}`, {
+      method: "POST",
+    }).then((res) => {
+      console.log(res);
+      getFolderItems(id,name);
+      input.value = "";
+    });
+  });
 }
 
-const editFolder = (id) =>{
+const deleteFolder = (id) => {
+  fetch(`/deleteFolder?id=${id}`, {
+    method: "DELETE",
+  }).then((res) => {
+    let div = document.querySelector(`[data-id="${id}"]`);
+    div.innerHTML = "";
+    div.remove();
+  });
+};
+
+const editFolder = (id) => {
   const formContainer = document.getElementById("form-container");
-	formContainer.innerHTML = '';
-	const form = document.createElement("form");
+  formContainer.innerHTML = "";
+  const form = document.createElement("form");
   form.id = "form";
   formContainer.appendChild(form);
   const input = document.createElement("input");
   const btn = document.createElement("button");
-	const cancelBtn = document.createElement("button");
+  const cancelBtn = document.createElement("button");
   input.id = "name";
   input.name = "name";
   input.placeholder = "Edit name folder";
@@ -152,35 +195,35 @@ const editFolder = (id) =>{
   input.required = true;
   input.maxLength = 30;
   btn.textContent = "Edit";
-	btn.id='btn';
-	cancelBtn.textContent = "Cancel";
-	cancelBtn.id= 'btn';
+  btn.id = "btn";
+  cancelBtn.textContent = "Cancel";
+  cancelBtn.id = "btn";
   form.appendChild(input);
   form.appendChild(btn);
-	form.appendChild(cancelBtn);
-	cancelBtn.addEventListener("click", ()=>{
-		formContainer.innerHTML = '';
-		getFolders();
-		createFolder();
-	})
+  form.appendChild(cancelBtn);
+  cancelBtn.addEventListener("click", () => {
+    formContainer.innerHTML = "";
+    getFolders();
+    createFolder();
+  });
   btn.addEventListener("click", (e) => {
     e.preventDefault();
     fetch(`/editFolder?name=${input.value}&id=${id}`, {
       method: "PUT",
     }).then((res) => {
-			formContainer.innerHTML = '';
+      formContainer.innerHTML = "";
       getFolders();
       createFolder();
-		});
+    });
   });
-}
+};
 
 const getFolders = () => {
-fetch("/getFolder")
+  fetch("/getFolder")
     .then((res) => res.json())
     .then((data) => {
       const folderContainer = document.getElementById("folder-container");
-			folderContainer.innerHTML = '';
+      folderContainer.innerHTML = "";
       const fragment = document.createDocumentFragment();
       data.forEach((folder) => {
         const div = document.createElement("div");
@@ -192,13 +235,17 @@ fetch("/getFolder")
         const viewbtn = document.createElement("button");
         deletebtn.textContent = "Remove";
         editbtn.textContent = "Edit";
-        viewbtn.textContent = "View Items"
+        viewbtn.textContent = "View Items";
         p.textContent = folder.name;
-				viewbtn.addEventListener("click", ()=> getFolderItems(div.dataset.id));
+        viewbtn.addEventListener("click", () =>{
+          document.getElementById("form-container").innerHTML = "";
+          getFolderItems(div.dataset.id, folder.name);
+          createFolderItems(div.dataset.id,folder.name);
+        });
         deletebtn.addEventListener("click", () => deleteFolder(div.dataset.id));
-				editbtn.addEventListener("click", () => editFolder(div.dataset.id));
+        editbtn.addEventListener("click", () => editFolder(div.dataset.id));
         div.appendChild(p);
-				div.appendChild(viewbtn);
+        div.appendChild(viewbtn);
         div.appendChild(deletebtn);
         div.appendChild(editbtn);
         fragment.appendChild(div);
@@ -206,7 +253,6 @@ fetch("/getFolder")
       folderContainer.appendChild(fragment);
     });
 };
-
 
 const createFolder = () => {
   const form = document.createElement("form");
@@ -222,7 +268,7 @@ const createFolder = () => {
   input.required = true;
   input.maxLength = 30;
   btn.textContent = "Add";
-	btn.id='btn'
+  btn.id = "btn";
   form.appendChild(input);
   form.appendChild(btn);
   btn.addEventListener("click", (e) => {
@@ -230,9 +276,9 @@ const createFolder = () => {
     fetch(`/createFolder?name=${input.value}`, {
       method: "POST",
     }).then((res) => {
-			getFolders();
-			input.value = '';
-		});
+      getFolders();
+      input.value = "";
+    });
   });
 };
 
@@ -242,21 +288,21 @@ window.addEventListener("load", () => {
   const folderCotainer = document.getElementById("folder-container");
   const itemContainer = document.getElementById("item-container");
   const formContainer = document.getElementById("form-container");
-	const nav = document.getElementById("nav");
+  const nav = document.getElementById("nav");
   btnFolder.textContent = "Desplegar Carpetas";
   btnItem.textContent = "Desplegar Items";
   nav.appendChild(btnFolder);
   nav.appendChild(btnItem);
   btnItem.addEventListener("click", () => {
-    folderCotainer.innerHTML = '';
-		formContainer.innerHTML = '';
-		getItems();
-		createItem();
-	});
+    folderCotainer.innerHTML = "";
+    formContainer.innerHTML = "";
+    getItems();
+    createItem();
+  });
   btnFolder.addEventListener("click", () => {
-    itemContainer.innerHTML = ''
-		formContainer.innerHTML = '';
+    itemContainer.innerHTML = "";
+    formContainer.innerHTML = "";
     getFolders();
-		createFolder();
+    createFolder();
   });
 });

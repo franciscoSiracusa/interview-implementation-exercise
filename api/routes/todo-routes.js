@@ -6,11 +6,13 @@ const controllers = require('../controllers/todo-controllers.js')
 
 routes.get('/getItem', controllers.getItem)
 routes.get('/getFolder', controllers.getFolder)
+routes.get('/getFolderItem',controllers.getFolderItem)
 
 //Create items and folders
 
 routes.post('/createItem', controllers.createItem);
 routes.post('/createFolder', controllers.createFolder);
+routes.post('/createFolderItem',controllers.createFolderItem);
 
 //Edit items and folders
 routes.put('/editItem', controllers.editItem);

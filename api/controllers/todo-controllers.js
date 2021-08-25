@@ -11,6 +11,12 @@ const getFolder = async (req,res) =>{
     res.json(folders);
 };
 
+const getFolderItem = async (req,res) =>{
+    let sql = "SELECT * FROM items WHERE folder_id = " + req.query.id;
+    const folderItems = await pool.query(sql);
+    res.json(folderItems);
+}
+
 const createItem = async (req,res) =>{
     let sql = "INSERT INTO items(description) VALUES('"+ req.query.description +"')";
     await pool.query(sql);
@@ -22,6 +28,17 @@ const createFolder = async(req,res) =>{
     await pool.query(sql);
     res.sendStatus(200).end()
 };
+
+const createFolderItem = async(req,res) =>{
+    id = req.query.id;
+    description= req.query.description;
+    let sql = `INSERT INTO items(description, folder_id) VALUES('${description}', ${id})`;
+    console.log(sql);
+    console.log(req.query.id);
+    console.log(req.query.description)
+    await pool.query(sql);
+    res.sendStatus(200).end()
+}
 
 const editItem = async(req,res) =>{
     let sql = "UPDATE items SET description = '" + req.query.description + "' WHERE item_id = " + req.query.id;
@@ -58,8 +75,10 @@ const deleteFolder = async(req,res) =>{
 module.exports = {
     getItem,
     getFolder,
+    getFolderItem,
     createItem,
     createFolder,
+    createFolderItem,
     editItem,
     editFolder,
     deleteItem,
