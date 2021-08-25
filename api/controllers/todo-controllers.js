@@ -23,17 +23,17 @@ const createFolder = async(req,res) =>{
     res.sendStatus(200).end()
 };
 
-const editItem = (req,res) =>{
-
+const editItem = async(req,res) =>{
+    let sql = "UPDATE items SET description = '" + req.query.description + "' WHERE item_id = " + req.query.id;
+    await pool.query(sql);
+    res.sendStatus(200).end()
 };
 
-const editFolder = (req,res) =>{
-
+const editFolder = async(req,res) =>{
 };
 
 const deleteItem = async(req,res) =>{
     let sql = "DELETE FROM items WHERE item_id = " + req.query.id;
-    console.log(sql)
     await pool.query(sql);
     res.sendStatus(200).end();
 };

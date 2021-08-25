@@ -9,6 +9,35 @@ const deleteItem = (id) => {
 		});
 }
 
+const editItem = (id) => {
+	const formContainer = document.getElementById("form-container");
+	formContainer.innerHTML = '';
+	const form = document.createElement("form");
+  form.id = "form";
+  formContainer.appendChild(form);
+  const input = document.createElement("input");
+  const btn = document.createElement("button");
+  input.id = "description";
+  input.name = "description";
+  input.placeholder = "Editar Tarea";
+  input.pattern = "^[a-zA-Z ñÑ]*$";
+  input.required = true;
+  input.maxLength = 50;
+  btn.textContent = "Editar";
+	btn.id='btn'
+  form.appendChild(input);
+  form.appendChild(btn);
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    fetch(`/editItem?description=${input.value}&id=${id}`, {
+      method: "PUT",
+    }).then((res) => {
+			formContainer.innerHTML = '';
+			getItems();
+			createItem();
+		});
+  });
+};
 
 const getItems = () => {
   fetch("/getItem")
@@ -28,6 +57,7 @@ const getItems = () => {
         editbtn.textContent = "Editar";
         p.textContent = item.description;
         deletebtn.addEventListener("click", () => deleteItem(div.dataset.id));
+				editbtn.addEventListener("click", () => editItem(div.dataset.id));
         div.appendChild(p);
         div.appendChild(deletebtn);
         div.appendChild(editbtn);
@@ -37,6 +67,7 @@ const getItems = () => {
     });
 };
 
+/*
 const getFolders = () => {
   fetch("/getFolder")
     .then((res) => res.json())
@@ -56,7 +87,7 @@ const getFolders = () => {
         list.appendChild(fragment);
       }
     });
-};
+};*/
 
 const createItem = () => {
   const form = document.createElement("form");
@@ -71,7 +102,8 @@ const createItem = () => {
   input.pattern = "^[a-zA-Z ñÑ]*$";
   input.required = true;
   input.maxLength = 50;
-  btn.textContent = "crear";
+  btn.textContent = "Crear";
+	btn.id='btn'
   form.appendChild(input);
   form.appendChild(btn);
   btn.addEventListener("click", (e) => {
@@ -85,6 +117,7 @@ const createItem = () => {
   });
 };
 
+/*
 const createFolder = () => {
   const form = document.createElement("form");
   form.id = "form";
@@ -107,7 +140,7 @@ const createFolder = () => {
       method: "POST",
     }).then((res) => getFolders());
   });
-};
+};*/
 
 window.addEventListener("load", () => {
   const btnItem = document.createElement("button");
@@ -119,6 +152,8 @@ window.addEventListener("load", () => {
   document.body.appendChild(btnFolder);
   document.body.appendChild(btnItem);
   btnItem.addEventListener("click", () => {
+		const formContainer = document.getElementById("form-container");
+		formContainer.innerHTML = '';
 		getItems();
 		createItem();
 	});

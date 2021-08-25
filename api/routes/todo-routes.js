@@ -13,8 +13,8 @@ routes.post('/createItem', controllers.createItem);
 routes.post('/createFolder', controllers.createFolder);
 
 //Edit items and folders
-routes.patch('/editItem', controllers.editItem);
-routes.patch('/editFolder', controllers.editFolder);
+routes.put('/editItem', controllers.editItem);
+routes.put('/editFolder', controllers.editFolder);
 
 //Delete items and folders
 routes.delete('/deleteItem', controllers.deleteItem);
