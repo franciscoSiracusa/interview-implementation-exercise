@@ -1,8 +1,4 @@
-CREATE DATABASE database_todolist;
-
 USE database_todolist;
-
--- Folder table
 
 CREATE TABLE folders (
     name VARCHAR(30) NOT NULL,
@@ -16,7 +12,6 @@ ALTER TABLE folders
 
 DESCRIBE folders;
 
--- Items table
 CREATE TABLE items (
     item_id INT NOT NULL,
     description VARCHAR(50) NOT NULL,
