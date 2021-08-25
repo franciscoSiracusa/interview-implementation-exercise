@@ -2,7 +2,7 @@ const path = require('path')
 const pool = require(path.join(__dirname, '..', '..','database.js'))
 
 const getItem = async (req,res) =>{
-    const items = await pool.query('SELECT * FROM items');
+    const items = await pool.query('SELECT * FROM items WHERE folder_id = 0');
     res.json(items);
 };
  
