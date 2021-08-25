@@ -15,6 +15,7 @@ const displayItem = (data,folderId,folderName) => {
     deletebtn.className = "btn"
     editbtn.className = "btn"
     p.textContent = item.description;
+    p.className= "item-text"
     input.type = "checkbox";
     input.checked = item.checked ? true : false;
     deletebtn.addEventListener("click", () => deleteItem(div.dataset.id));

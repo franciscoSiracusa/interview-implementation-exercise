@@ -14,7 +14,7 @@ body {
     color: black;
     background-color: #ffffed;
     height: 100%;
-    overflow: hidden;
+    padding-bottom: 6rem;
 }
 
 title {
@@ -46,7 +46,6 @@ title {
 
 .item-container{
     display:flex;
-    overflow: hidden;
     width: 50%;
     height: auto;
     margin: auto;
@@ -65,11 +64,18 @@ title {
 
 .item {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
     margin: 10px;
     padding: 2px;
+    width: 50%;
+}
+
+.item-text{
+    width: 200px;
+    margin-right: 20px;
+    text-align: left;
 }
 
 .folder {
