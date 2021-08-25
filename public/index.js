@@ -10,8 +10,10 @@ const displayItem = (data,folderId,folderName) => {
     const deletebtn = document.createElement("button");
     const editbtn = document.createElement("button");
     const input = document.createElement("input");
-    deletebtn.textContent = "Borrar";
-    editbtn.textContent = "Editar";
+    deletebtn.textContent = "Delete";
+    editbtn.textContent = "Edit";
+    deletebtn.className = "btn"
+    editbtn.className = "btn"
     p.textContent = item.description;
     input.type = "checkbox";
     input.checked = item.checked ? true : false;
@@ -38,6 +40,13 @@ const deleteItem = (id) => {
 };
 
 const editItem = (id,folderId,folderName) => {
+  let div = document.querySelector(`[data-id="${id}"]`);
+  const itemContainer = document.getElementById("item-container");
+  const p = document.createElement("p");
+  p.textContent = div.childNodes[0].textContent;
+  itemContainer.innerHTML = "";
+  itemContainer.appendChild(p);
+  itemContainer.appendChild(div);
   const formContainer = document.getElementById("form-container");
   formContainer.innerHTML = "";
   const form = document.createElement("form");
@@ -140,7 +149,7 @@ const getFolderItems = (id, name) => {
       const p = document.createElement("p");
       p.textContent = name;
       const itemContainer = document.getElementById("item-container");
-      itemContainer.appendChild(p);
+      itemContainer.insertBefore(p,itemContainer.firstChild);
     });
 };
 
@@ -166,7 +175,6 @@ const createFolderItems = (id,name) =>{
     fetch(`/createFolderItem?description=${input.value}&id=${id}`, {
       method: "POST",
     }).then((res) => {
-      console.log(res);
       getFolderItems(id,name);
       input.value = "";
     });
@@ -295,6 +303,8 @@ window.addEventListener("load", () => {
   const nav = document.getElementById("nav");
   btnFolder.textContent = "Desplegar Carpetas";
   btnItem.textContent = "Desplegar Items";
+  btnFolder.className= "btn"
+  btnItem.className= "btn"
   nav.appendChild(btnFolder);
   nav.appendChild(btnItem);
   btnItem.addEventListener("click", () => {

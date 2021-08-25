@@ -1,24 +1,75 @@
-.nav{
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap%27');
+
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+    background-color: #ffffed;
+    height: 100%;
     overflow: hidden;
-    background-color: #333;
-    font-family: Arial;
+}
+
+title {
+    color: #f0a39e;
+    font-weight: 700;
+    font-size: 6rem;
+    text-align: center;
+    text-shadow: 1px 1px 5px #6e99c4;
+    margin-bottom: 2rem;
+  }
+
+.header{
+    overflow: hidden;
+    background-color: #98d6f3;
+    width: 100%;
+    height: 120px;
+    margin: 0%;
+    text-align: center;
+    line-height: 100px;
+}
+
+.nav{
+    background-color: cadetblue;
+    width: 100%;
+    height: 10%;
+    float: left;
+    text-align: center;
 }
 
 .item-container{
+    display:flex;
+    overflow: hidden;
+    width: 50%;
+    height: auto;
+    margin: auto;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    flex-direction: column;
 }
 
 .form-container{
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hi;
 }
 
 .item {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    margin: 10px;
+    padding: 2px;
 }
 
 .folder {
@@ -26,3 +77,22 @@
     justify-content: center;
     align-items: center;
 }
+
+.btn {
+    background-color: #6ec2e9;
+    border: none;
+    color: black;
+    padding: 16px;
+    margin: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 20px;
+    transition-duration: 0.4s;
+  }
+
+  .btn:hover{
+    background-color: #4CAF50; /* Green */
+    color: white;
+  }
