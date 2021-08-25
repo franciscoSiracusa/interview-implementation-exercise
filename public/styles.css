@@ -1,3 +1,20 @@
+.nav{
+    overflow: hidden;
+    background-color: #333;
+    font-family: Arial;
+}
+
+.item-container{
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .item {
     display: flex;
     justify-content: center;

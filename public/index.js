@@ -17,6 +17,7 @@ const editItem = (id) => {
   formContainer.appendChild(form);
   const input = document.createElement("input");
   const btn = document.createElement("button");
+	const cancelBtn = document.createElement("button");
   input.id = "description";
   input.name = "description";
   input.placeholder = "Editar Tarea";
@@ -24,9 +25,17 @@ const editItem = (id) => {
   input.required = true;
   input.maxLength = 50;
   btn.textContent = "Editar";
-	btn.id='btn'
+	btn.id='btn';
+	cancelBtn.textContent = "Cancelar";
+	cancelBtn.id= 'btn';
   form.appendChild(input);
   form.appendChild(btn);
+	form.appendChild(cancelBtn);
+	cancelBtn.addEventListener("click", ()=>{
+		formContainer.innerHTML = '';
+		getItems();
+		createItem();
+	})
   btn.addEventListener("click", (e) => {
     e.preventDefault();
     fetch(`/editItem?description=${input.value}&id=${id}`, {
@@ -60,7 +69,7 @@ const getItems = () => {
       const itemContainer = document.getElementById("item-container");
 			itemContainer.innerHTML = '';
       const fragment = document.createDocumentFragment();
-      data.forEach((item, index) => {
+      data.forEach((item) => {
         const div = document.createElement("div");
         div.className = "item";
         div.setAttribute("data-id", item.item_id);
@@ -72,6 +81,7 @@ const getItems = () => {
         editbtn.textContent = "Editar";
         p.textContent = item.description;
 				input.type = 'checkbox'
+        input.checked = item.checked ? true : false;
         deletebtn.addEventListener("click", () => deleteItem(div.dataset.id));
 				editbtn.addEventListener("click", () => editItem(div.dataset.id));
 				input.addEventListener("change", ()=> checkItem(div.dataset.id,input));
@@ -166,10 +176,11 @@ window.addEventListener("load", () => {
   const btnFolder = document.createElement("button");
   const folderCotainer = document.getElementById("folder-container");
   const itemContainer = document.getElementById("item-container");
+	const nav = document.getElementById("nav");
   btnFolder.textContent = "Desplegar Carpetas";
   btnItem.textContent = "Desplegar Items";
-  document.body.appendChild(btnFolder);
-  document.body.appendChild(btnItem);
+  nav.appendChild(btnFolder);
+  nav.appendChild(btnItem);
   btnItem.addEventListener("click", () => {
 		const formContainer = document.getElementById("form-container");
 		formContainer.innerHTML = '';
