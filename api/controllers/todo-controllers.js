@@ -30,6 +30,9 @@ const editItem = async(req,res) =>{
 };
 
 const editFolder = async(req,res) =>{
+    let sql = "UPDATE folders SET name = '" + req.query.name + "' WHERE folder_id = " + req.query.id;
+    await pool.query(sql);
+    res.sendStatus(200).end() 
 };
 
 const checkItem = async(req,res) =>{

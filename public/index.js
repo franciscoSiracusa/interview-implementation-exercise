@@ -136,6 +136,45 @@ const deleteFolder = (id) => {
 		});
 }
 
+const editFolder = (id) =>{
+  const formContainer = document.getElementById("form-container");
+	formContainer.innerHTML = '';
+	const form = document.createElement("form");
+  form.id = "form";
+  formContainer.appendChild(form);
+  const input = document.createElement("input");
+  const btn = document.createElement("button");
+	const cancelBtn = document.createElement("button");
+  input.id = "name";
+  input.name = "name";
+  input.placeholder = "Edit name folder";
+  input.pattern = "^[a-zA-Z ñÑ]*$";
+  input.required = true;
+  input.maxLength = 30;
+  btn.textContent = "Edit";
+	btn.id='btn';
+	cancelBtn.textContent = "Cancel";
+	cancelBtn.id= 'btn';
+  form.appendChild(input);
+  form.appendChild(btn);
+	form.appendChild(cancelBtn);
+	cancelBtn.addEventListener("click", ()=>{
+		formContainer.innerHTML = '';
+		getFolders();
+		createFolder();
+	})
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    fetch(`/editFolder?name=${input.value}&id=${id}`, {
+      method: "PUT",
+    }).then((res) => {
+			formContainer.innerHTML = '';
+      getFolders();
+      createFolder();
+		});
+  });
+}
+
 const getFolders = () => {
 fetch("/getFolder")
     .then((res) => res.json())
@@ -181,7 +220,7 @@ const createFolder = () => {
   input.placeholder = "Name of the Folder";
   input.pattern = "^[a-zA-Z ñÑ]*$";
   input.required = true;
-  input.maxLength = 50;
+  input.maxLength = 30;
   btn.textContent = "Add";
 	btn.id='btn'
   form.appendChild(input);
