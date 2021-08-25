@@ -15,12 +15,11 @@ routes.post('/createFolder', controllers.createFolder);
 //Edit items and folders
 routes.put('/editItem', controllers.editItem);
 routes.put('/editFolder', controllers.editFolder);
+routes.put('/checkItem', controllers.checkItem)
 
 //Delete items and folders
 routes.delete('/deleteItem', controllers.deleteItem);
 routes.delete('/deleteFolder', controllers.deleteFolder);
-
-//Checked item TODO
 
 
 module.exports = routes;

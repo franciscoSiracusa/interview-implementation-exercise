@@ -39,6 +39,20 @@ const editItem = (id) => {
   });
 };
 
+const checkItem = (id,input) =>{
+	if (input.checked) {
+		let checked = 1;
+		fetch(`/checkItem?id=${id}&checked=${checked}`,{
+			method:'PUT'
+		}).then()
+	} else {
+		let checked = 0;
+		fetch(`/checkItem?id=${id}&checked=${checked}`,{
+			method:'PUT'
+		}).then()
+	}
+}
+
 const getItems = () => {
   fetch("/getItem")
     .then((res) => res.json())
@@ -53,41 +67,24 @@ const getItems = () => {
         const p = document.createElement("p");
         const deletebtn = document.createElement("button");
         const editbtn = document.createElement("button");
+				const input = document.createElement("input");
         deletebtn.textContent = "Borrar";
         editbtn.textContent = "Editar";
         p.textContent = item.description;
+				input.type = 'checkbox'
         deletebtn.addEventListener("click", () => deleteItem(div.dataset.id));
 				editbtn.addEventListener("click", () => editItem(div.dataset.id));
+				input.addEventListener("change", ()=> checkItem(div.dataset.id,input));
         div.appendChild(p);
         div.appendChild(deletebtn);
         div.appendChild(editbtn);
+				div.appendChild(input);
         fragment.appendChild(div);
       });
       itemContainer.appendChild(fragment);
     });
 };
 
-/*
-const getFolders = () => {
-  fetch("/getFolder")
-    .then((res) => res.json())
-    .then((data) => {
-      const list = document.getElementById("folder-list");
-      if (list.hasChildNodes()) {
-        const folderlist = document.createElement("li");
-        folderlist.textContent = data[data.length - 1].name;
-        list.appendChild(folderlist);
-      } else {
-        const fragment = document.createDocumentFragment();
-        data.forEach((item) => {
-          const folderlist = document.createElement("li");
-          folderlist.textContent = item.name;
-          fragment.appendChild(folderlist);
-        });
-        list.appendChild(fragment);
-      }
-    });
-};*/
 
 const createItem = () => {
   const form = document.createElement("form");
@@ -116,6 +113,28 @@ const createItem = () => {
 		});
   });
 };
+
+/*
+const getFolders = () => {
+  fetch("/getFolder")
+    .then((res) => res.json())
+    .then((data) => {
+      const list = document.getElementById("folder-list");
+      if (list.hasChildNodes()) {
+        const folderlist = document.createElement("li");
+        folderlist.textContent = data[data.length - 1].name;
+        list.appendChild(folderlist);
+      } else {
+        const fragment = document.createDocumentFragment();
+        data.forEach((item) => {
+          const folderlist = document.createElement("li");
+          folderlist.textContent = item.name;
+          fragment.appendChild(folderlist);
+        });
+        list.appendChild(fragment);
+      }
+    });
+};*/
 
 /*
 const createFolder = () => {

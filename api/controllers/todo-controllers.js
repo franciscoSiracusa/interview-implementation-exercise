@@ -32,6 +32,12 @@ const editItem = async(req,res) =>{
 const editFolder = async(req,res) =>{
 };
 
+const checkItem = async(req,res) =>{
+    let sql = "UPDATE items SET checked = " + req.query.checked + " WHERE item_id = " + req.query.id;
+    await pool.query(sql);
+    res.sendStatus(200).end()
+}
+
 const deleteItem = async(req,res) =>{
     let sql = "DELETE FROM items WHERE item_id = " + req.query.id;
     await pool.query(sql);
@@ -50,5 +56,6 @@ module.exports = {
     editItem,
     editFolder,
     deleteItem,
-    deleteFolder
+    deleteFolder,
+    checkItem
 }
