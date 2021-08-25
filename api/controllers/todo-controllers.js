@@ -1,4 +1,3 @@
-const { copyFileSync } = require('fs');
 const path = require('path')
 const pool = require(path.join(__dirname, '..', '..','database.js'))
 
@@ -32,8 +31,11 @@ const editFolder = (req,res) =>{
 
 };
 
-const deleteItem = (req,res) =>{
-
+const deleteItem = async(req,res) =>{
+    let sql = "DELETE FROM items WHERE item_id = " + req.query.id;
+    console.log(sql)
+    await pool.query(sql);
+    res.sendStatus(200).end();
 };
 
 const deleteFolder = (req,res) =>{

@@ -1,49 +1,39 @@
 const deleteItem = (id) => {
-	console.log(id);
+	fetch(`/deleteItem?id=${id}`,{
+		method: "DELETE"
+	})
+		.then(res => {
+			let div = document.querySelector(`[data-id="${id}"]`);
+			div.innerHTML = '';
+			div.remove();
+		});
 }
+
 
 const getItems = () => {
   fetch("/getItem")
     .then((res) => res.json())
     .then((data) => {
-			const itemContainer = document.getElementById("item-container");
-      if (itemContainer.hasChildNodes()) {
+      const itemContainer = document.getElementById("item-container");
+			itemContainer.innerHTML = '';
+      const fragment = document.createDocumentFragment();
+      data.forEach((item, index) => {
         const div = document.createElement("div");
-				div.className = 'item';
-				div.setAttribute('data-id',data.length);
+        div.className = "item";
+        div.setAttribute("data-id", item.item_id);
         const p = document.createElement("p");
         const deletebtn = document.createElement("button");
         const editbtn = document.createElement("button");
         deletebtn.textContent = "Borrar";
         editbtn.textContent = "Editar";
-        p.textContent = data[data.length - 1].description;
-				deletebtn.addEventListener('click', () => deleteItem(div.dataset.id));
+        p.textContent = item.description;
+        deletebtn.addEventListener("click", () => deleteItem(div.dataset.id));
         div.appendChild(p);
         div.appendChild(deletebtn);
         div.appendChild(editbtn);
-        itemContainer.appendChild(div);
-      } else {
-        const fragment = document.createDocumentFragment();
-        data.forEach((item,index) => {
-          const div = document.createElement("div");
-					div.className = 'item';
-					div.id = 'item';
-					div.setAttribute('data-id',index+1);
-          const p = document.createElement("p");
-          const deletebtn = document.createElement("button");
-          const editbtn = document.createElement("button");
-          deletebtn.textContent = "Borrar";
-          editbtn.textContent = "Editar";
-          p.textContent = item.description;
-					deletebtn.addEventListener('click', () => deleteItem(div.dataset.id));
-          div.appendChild(p);
-          div.appendChild(deletebtn);
-          div.appendChild(editbtn);
-          fragment.appendChild(div);
-        });
-        itemContainer.appendChild(fragment);
-      }
-			
+        fragment.appendChild(div);
+      });
+      itemContainer.appendChild(fragment);
     });
 };
 
@@ -88,7 +78,10 @@ const createItem = () => {
     e.preventDefault();
     fetch(`/createItem?description=${input.value}`, {
       method: "POST",
-    }).then((res) => getItems());
+    }).then((res) => {
+			getItems();
+			input.value = '';
+		});
   });
 };
 
@@ -125,7 +118,9 @@ window.addEventListener("load", () => {
   btnItem.textContent = "Desplegar Items";
   document.body.appendChild(btnFolder);
   document.body.appendChild(btnItem);
-  btnItem.addEventListener("click", () => getItems());
+  btnItem.addEventListener("click", () => {
+		getItems();
+		createItem();
+	});
   btnFolder.addEventListener("click", () => getFolders());
-  createItem();
 });
