@@ -1,4 +1,4 @@
-const displayItem = (data) => {
+const displayItem = (data,folderId,folderName) => {
   const itemContainer = document.getElementById("item-container");
   itemContainer.innerHTML = "";
   const fragment = document.createDocumentFragment();
@@ -16,11 +16,11 @@ const displayItem = (data) => {
     input.type = "checkbox";
     input.checked = item.checked ? true : false;
     deletebtn.addEventListener("click", () => deleteItem(div.dataset.id));
-    editbtn.addEventListener("click", () => editItem(div.dataset.id));
+    editbtn.addEventListener("click", () => editItem(div.dataset.id,folderId,folderName));
     input.addEventListener("change", () => checkItem(div.dataset.id, input));
     div.appendChild(p);
-    div.appendChild(deletebtn);
     div.appendChild(editbtn);
+    div.appendChild(deletebtn);
     div.appendChild(input);
     fragment.appendChild(div);
   });
@@ -37,7 +37,7 @@ const deleteItem = (id) => {
   });
 };
 
-const editItem = (id) => {
+const editItem = (id,folderId,folderName) => {
   const formContainer = document.getElementById("form-container");
   formContainer.innerHTML = "";
   const form = document.createElement("form");
@@ -53,9 +53,9 @@ const editItem = (id) => {
   input.required = true;
   input.maxLength = 50;
   btn.textContent = "Editar";
-  btn.id = "btn";
+  btn.className = "btn";
   cancelBtn.textContent = "Cancelar";
-  cancelBtn.id = "btn";
+  cancelBtn.className = "btn";
   form.appendChild(input);
   form.appendChild(btn);
   form.appendChild(cancelBtn);
@@ -70,8 +70,13 @@ const editItem = (id) => {
       method: "PUT",
     }).then((res) => {
       formContainer.innerHTML = "";
-      getItems();
-      createItem();
+      if (folderId === undefined) {
+        getItems();
+        createItem();
+      } else {
+        getFolderItems(folderId,folderName);
+        createFolderItems(folderId,folderName);
+      }
     });
   });
 };
@@ -131,12 +136,11 @@ const getFolderItems = (id, name) => {
   fetch(`/getFolderItem?id=${id}`)
     .then((res) => res.json())
     .then((data) => {
-      displayItem(data);
+      displayItem(data,id,name);
       const p = document.createElement("p");
       p.textContent = name;
       const itemContainer = document.getElementById("item-container");
       itemContainer.appendChild(p);
-      console.log(name);
     });
 };
 
