@@ -18,7 +18,7 @@ const createItem = async (req,res) =>{
 };
 
 const createFolder = async(req,res) =>{
-    let sql = "INSERT INTO folders(name) VALUES('"+ req.query.description +"')";
+    let sql = "INSERT INTO folders(name) VALUES('"+ req.query.name +"')";
     await pool.query(sql);
     res.sendStatus(200).end()
 };
@@ -44,8 +44,12 @@ const deleteItem = async(req,res) =>{
     res.sendStatus(200).end();
 };
 
-const deleteFolder = (req,res) =>{
-
+const deleteFolder = async(req,res) =>{
+    let sql = "DELETE FROM folders WHERE folder_id = " + req.query.id;
+    await pool.query(sql);
+    sql = "DELETE FROM items WHERE folder_id = " + req.query.id;
+    await pool.query(sql);
+    res.sendStatus(200).end();
 };
 
 module.exports = {

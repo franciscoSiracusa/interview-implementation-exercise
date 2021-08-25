@@ -124,29 +124,51 @@ const createItem = () => {
   });
 };
 
-/*
+
+const deleteFolder = (id) => {
+	fetch(`/deleteFolder?id=${id}`,{
+		method: "DELETE"
+	})
+		.then(res => {
+			let div = document.querySelector(`[data-id="${id}"]`);
+			div.innerHTML = '';
+			div.remove();
+		});
+}
+
 const getFolders = () => {
-  fetch("/getFolder")
+fetch("/getFolder")
     .then((res) => res.json())
     .then((data) => {
-      const list = document.getElementById("folder-list");
-      if (list.hasChildNodes()) {
-        const folderlist = document.createElement("li");
-        folderlist.textContent = data[data.length - 1].name;
-        list.appendChild(folderlist);
-      } else {
-        const fragment = document.createDocumentFragment();
-        data.forEach((item) => {
-          const folderlist = document.createElement("li");
-          folderlist.textContent = item.name;
-          fragment.appendChild(folderlist);
-        });
-        list.appendChild(fragment);
-      }
+      const folderContainer = document.getElementById("folder-container");
+			folderContainer.innerHTML = '';
+      const fragment = document.createDocumentFragment();
+      data.forEach((folder) => {
+        const div = document.createElement("div");
+        div.className = "folder";
+        div.setAttribute("data-id", folder.folder_id);
+        const p = document.createElement("p");
+        const deletebtn = document.createElement("button");
+        const editbtn = document.createElement("button");
+        const viewbtn = document.createElement("button");
+        deletebtn.textContent = "Remove";
+        editbtn.textContent = "Edit";
+        viewbtn.textContent = "View Items"
+        p.textContent = folder.name;
+				viewbtn.addEventListener("click", ()=> getFolderItems(div.dataset.id));
+        deletebtn.addEventListener("click", () => deleteFolder(div.dataset.id));
+				editbtn.addEventListener("click", () => editFolder(div.dataset.id));
+        div.appendChild(p);
+				div.appendChild(viewbtn);
+        div.appendChild(deletebtn);
+        div.appendChild(editbtn);
+        fragment.appendChild(div);
+      });
+      folderContainer.appendChild(fragment);
     });
-};*/
+};
 
-/*
+
 const createFolder = () => {
   const form = document.createElement("form");
   form.id = "form";
@@ -156,36 +178,46 @@ const createFolder = () => {
   const btn = document.createElement("button");
   input.id = "name";
   input.name = "name";
-  input.placeholder = "Insertar Nombre de Carpeta";
+  input.placeholder = "Name of the Folder";
   input.pattern = "^[a-zA-Z ñÑ]*$";
   input.required = true;
   input.maxLength = 50;
-  btn.textContent = "crear";
+  btn.textContent = "Add";
+	btn.id='btn'
   form.appendChild(input);
   form.appendChild(btn);
   btn.addEventListener("click", (e) => {
     e.preventDefault();
-    fetch(`/createItem?name=${input.value}`, {
+    fetch(`/createFolder?name=${input.value}`, {
       method: "POST",
-    }).then((res) => getFolders());
+    }).then((res) => {
+			getFolders();
+			input.value = '';
+		});
   });
-};*/
+};
 
 window.addEventListener("load", () => {
   const btnItem = document.createElement("button");
   const btnFolder = document.createElement("button");
   const folderCotainer = document.getElementById("folder-container");
   const itemContainer = document.getElementById("item-container");
+  const formContainer = document.getElementById("form-container");
 	const nav = document.getElementById("nav");
   btnFolder.textContent = "Desplegar Carpetas";
   btnItem.textContent = "Desplegar Items";
   nav.appendChild(btnFolder);
   nav.appendChild(btnItem);
   btnItem.addEventListener("click", () => {
-		const formContainer = document.getElementById("form-container");
+    folderCotainer.innerHTML = '';
 		formContainer.innerHTML = '';
 		getItems();
 		createItem();
 	});
-  btnFolder.addEventListener("click", () => getFolders());
+  btnFolder.addEventListener("click", () => {
+    itemContainer.innerHTML = ''
+		formContainer.innerHTML = '';
+    getFolders();
+		createFolder();
+  });
 });
