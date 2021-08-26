@@ -55,21 +55,26 @@ const editItem = (id,folderId,folderName) => {
   const cancelBtn = document.createElement("button");
   input.className = "input";
   input.name = "description";
-  input.placeholder = "Editar Tarea";
+  input.placeholder = "Edit Task";
   input.pattern = "^[a-zA-Z ñÑ]*$";
   input.required = true;
   input.maxLength = 50;
-  btn.textContent = "Editar";
+  btn.textContent = "Edit";
   btn.className = "btn";
-  cancelBtn.textContent = "Cancelar";
+  cancelBtn.textContent = "Cancel";
   cancelBtn.className = "btn";
   form.appendChild(input);
   form.appendChild(btn);
   form.appendChild(cancelBtn);
   cancelBtn.addEventListener("click", () => {
     formContainer.innerHTML = "";
-    getItems();
-    createItem();
+    if (folderId === undefined) {
+      getItems();
+      createItem();
+    } else {
+      getFolderItems(folderId,folderName);
+      createFolderItems(folderId,folderName);
+    }
   });
   btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -119,7 +124,7 @@ const createItem = () => {
   const btn = document.createElement("button");
   input.className = "input";
   input.name = "description";
-  input.placeholder = "Insertar Tarea";
+  input.placeholder = "Add Task";
   input.pattern = "^[a-zA-Z ñÑ]*$";
   input.required = true;
   input.maxLength = 50;
@@ -160,7 +165,7 @@ const createFolderItems = (id,name) =>{
   const btn = document.createElement("button");
   input.className = "input";
   input.name = "description";
-  input.placeholder = "Insertar Tarea";
+  input.placeholder = "Add Task";
   input.pattern = "^[a-zA-Z ñÑ]*$";
   input.required = true;
   input.maxLength = 50;
@@ -200,7 +205,7 @@ const editFolder = (id) => {
   const cancelBtn = document.createElement("button");
   input.className = "input";
   input.name = "name";
-  input.placeholder = "Edit name folder";
+  input.placeholder = "Edit Folder";
   input.pattern = "^[a-zA-Z ñÑ]*$";
   input.required = true;
   input.maxLength = 30;
@@ -303,8 +308,8 @@ window.addEventListener("load", () => {
   const itemContainer = document.getElementById("item-container");
   const formContainer = document.getElementById("form-container");
   const nav = document.getElementById("nav");
-  btnFolder.textContent = "Desplegar Carpetas";
-  btnItem.textContent = "Desplegar Items";
+  btnFolder.textContent = "Show Folders";
+  btnItem.textContent = "Show Tasks";
   btnFolder.className= "btn"
   btnItem.className= "btn"
   nav.appendChild(btnFolder);
