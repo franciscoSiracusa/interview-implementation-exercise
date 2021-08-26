@@ -59,7 +59,7 @@ title {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hi;
+    overflow: hidden;
 }
 
 .item {
@@ -101,4 +101,28 @@ title {
   .btn:hover{
     background-color: #4CAF50; /* Green */
     color: white;
+  }
+
+  .form {
+    background: #d9ebfd;
+    border: 1px solid #9eabb8;
+    border-radius: 2rem;
+    box-shadow: 1px -1px 6px #bbb inset;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 1rem;
+    margin: 1rem auto 3rem auto;
+    width: 23rem;
+  }
+
+.input {
+    background: transparent;
+    border: none;
+    height: 100%;
+    font-size: 0.8rem;
+    color: #333;
+    padding-right: 1rem;
+    margin-top: 1rem;
+    width: 18rem;
+    outline: none;
   }

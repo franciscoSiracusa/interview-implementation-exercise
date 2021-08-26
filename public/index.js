@@ -43,20 +43,17 @@ const deleteItem = (id) => {
 const editItem = (id,folderId,folderName) => {
   let div = document.querySelector(`[data-id="${id}"]`);
   const itemContainer = document.getElementById("item-container");
-  const p = document.createElement("p");
-  p.textContent = div.childNodes[0].textContent;
   itemContainer.innerHTML = "";
-  itemContainer.appendChild(p);
   itemContainer.appendChild(div);
   const formContainer = document.getElementById("form-container");
   formContainer.innerHTML = "";
   const form = document.createElement("form");
-  form.id = "form";
+  form.className = "form";
   formContainer.appendChild(form);
   const input = document.createElement("input");
   const btn = document.createElement("button");
   const cancelBtn = document.createElement("button");
-  input.id = "description";
+  input.className = "input";
   input.name = "description";
   input.placeholder = "Editar Tarea";
   input.pattern = "^[a-zA-Z ñÑ]*$";
@@ -115,19 +112,19 @@ const getItems = () => {
 
 const createItem = () => {
   const form = document.createElement("form");
-  form.id = "form";
+  form.className = "form";
   const formContainer = document.getElementById("form-container");
   formContainer.appendChild(form);
   const input = document.createElement("input");
   const btn = document.createElement("button");
-  input.id = "description";
+  input.className = "input";
   input.name = "description";
   input.placeholder = "Insertar Tarea";
   input.pattern = "^[a-zA-Z ñÑ]*$";
   input.required = true;
   input.maxLength = 50;
-  btn.textContent = "Crear";
-  btn.id = "btn";
+  btn.textContent = "Add";
+  btn.className = "btn";
   form.appendChild(input);
   form.appendChild(btn);
   btn.addEventListener("click", (e) => {
@@ -148,7 +145,7 @@ const getFolderItems = (id, name) => {
     .then((data) => {
       displayItem(data,id,name);
       const p = document.createElement("p");
-      p.textContent = name;
+      p.textContent = "Items inside folder "+ name;
       const itemContainer = document.getElementById("item-container");
       itemContainer.insertBefore(p,itemContainer.firstChild);
     });
@@ -156,19 +153,19 @@ const getFolderItems = (id, name) => {
 
 const createFolderItems = (id,name) =>{
   const form = document.createElement("form");
-  form.id = "form";
+  form.className = "form";
   const formContainer = document.getElementById("form-container");
   formContainer.appendChild(form);
   const input = document.createElement("input");
   const btn = document.createElement("button");
-  input.id = "description";
+  input.className = "input";
   input.name = "description";
   input.placeholder = "Insertar Tarea";
   input.pattern = "^[a-zA-Z ñÑ]*$";
   input.required = true;
   input.maxLength = 50;
   btn.textContent = "Add";
-  btn.id = "btn";
+  btn.className = "btn";
   form.appendChild(input);
   form.appendChild(btn);
   btn.addEventListener("click", (e) => {
@@ -196,21 +193,21 @@ const editFolder = (id) => {
   const formContainer = document.getElementById("form-container");
   formContainer.innerHTML = "";
   const form = document.createElement("form");
-  form.id = "form";
+  form.className = "form";
   formContainer.appendChild(form);
   const input = document.createElement("input");
   const btn = document.createElement("button");
   const cancelBtn = document.createElement("button");
-  input.id = "name";
+  input.className = "input";
   input.name = "name";
   input.placeholder = "Edit name folder";
   input.pattern = "^[a-zA-Z ñÑ]*$";
   input.required = true;
   input.maxLength = 30;
   btn.textContent = "Edit";
-  btn.id = "btn";
+  btn.className = "btn";
   cancelBtn.textContent = "Cancel";
-  cancelBtn.id = "btn";
+  cancelBtn.className = "btn";
   form.appendChild(input);
   form.appendChild(btn);
   form.appendChild(cancelBtn);
@@ -250,6 +247,10 @@ const getFolders = () => {
         editbtn.textContent = "Edit";
         viewbtn.textContent = "View Items";
         p.textContent = folder.name;
+        p.className= "item-text"
+        deletebtn.className = "btn";
+        editbtn.className = "btn";
+        viewbtn.className = "btn";
         viewbtn.addEventListener("click", () =>{
           document.getElementById("form-container").innerHTML = "";
           getFolderItems(div.dataset.id, folder.name);
@@ -269,19 +270,19 @@ const getFolders = () => {
 
 const createFolder = () => {
   const form = document.createElement("form");
-  form.id = "form";
+  form.className = "form";
   const formContainer = document.getElementById("form-container");
   formContainer.appendChild(form);
   const input = document.createElement("input");
   const btn = document.createElement("button");
-  input.id = "name";
+  input.className = "input";
   input.name = "name";
   input.placeholder = "Name of the Folder";
   input.pattern = "^[a-zA-Z ñÑ]*$";
   input.required = true;
   input.maxLength = 30;
   btn.textContent = "Add";
-  btn.id = "btn";
+  btn.className = "btn";
   form.appendChild(input);
   form.appendChild(btn);
   btn.addEventListener("click", (e) => {
