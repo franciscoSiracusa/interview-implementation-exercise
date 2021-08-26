@@ -197,6 +197,10 @@ const deleteFolder = (id) => {
 const editFolder = (id) => {
   const formContainer = document.getElementById("form-container");
   formContainer.innerHTML = "";
+  let div = document.querySelector(`[data-id="${id}"]`);
+  const folderContainer = document.getElementById("folder-container");
+  folderContainer.innerHTML = "";
+  folderContainer.appendChild(div);
   const form = document.createElement("form");
   form.className = "form";
   formContainer.appendChild(form);
